@@ -14,7 +14,7 @@ const BlogItem = () => {
     <>
       {/* Filter Buttons */}
       <div className="flex flex-wrap justify-center gap-4 my-8 px-4">
-        {["All", "Technology", "Startup", "LifeStyle"].map((category) => (
+        {["All", "Technology", "Startup", "Life Style"].map((category) => (
           <button
             key={category}
             onClick={() => setMenu(category)}
@@ -24,7 +24,7 @@ const BlogItem = () => {
                 : "bg-gray-100 text-blue-600 hover:bg-blue-200"
             }`}
           >
-            {category === "LifeStyle" ? "Life Style" : category}
+            {category === "Life Style" ? "Life Style" : category}
           </button>
         ))}
       </div>

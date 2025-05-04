@@ -46,7 +46,7 @@ export const assets = {
         description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the..",
         image:blog_pic_1,
         date:Date.now(),
-        category:"Lifestyle",
+        category:"Life Style",
         author:"Alex Bennett",
         author_img:profile_icon
     },
@@ -86,7 +86,7 @@ export const assets = {
         description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the..",
         image:blog_pic_5,
         date:Date.now(),
-        category:"Lifestyle",
+        category:"Life Style",
         author:"Alex Bennett",
         author_img:profile_icon
     },
@@ -116,7 +116,7 @@ export const assets = {
         description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the..",
         image:blog_pic_8,
         date:Date.now(),
-        category:"Lifestyle",
+        category:"Life Style",
         author:"Alex Bennett",
         author_img:profile_icon
     },
@@ -132,11 +132,11 @@ export const assets = {
     },
     {
         id:10,
-        title:"Beyond the Ordinary: Crafting Your Exceptional Lifestyle",
+        title:"Beyond the Ordinary: Crafting Your Exceptional Life Style",
         description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the..",
         image:blog_pic_10,
         date:Date.now(),
-        category:"Lifestyle",
+        category:"Life Style",
         author:"Alex Bennett",
         author_img:profile_icon
     },
@@ -176,7 +176,7 @@ export const assets = {
         description:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the..",
         image:blog_pic_14,
         date:Date.now(),
-        category:"Lifestyle",
+        category:"Life Style",
         author:"Alex Bennett",
         author_img:profile_icon
     },
