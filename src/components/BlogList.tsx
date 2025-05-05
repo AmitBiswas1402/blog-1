@@ -1,38 +1,55 @@
-import Image from "next/image";
-import { assets } from "@/assets/assets";
+import { blog_data } from "@/assets/assets";
+import BlogItem from "./BlogItem";
+import { useState } from "react";
 
-type BlogListProps = {
-  title: string;
-  description: string;
-  image: string;
-  category: string;
-};
+const BlogList = () => {
+  const [menu, setMenu] = useState("All");
 
-const BlogList = ({ title, description, category, image }: BlogListProps) => {
+  // Filter logic
+  const filteredBlogs =
+    menu === "All"
+      ? blog_data
+      : blog_data.filter((item) => item.category === menu);
+
   return (
-    <div className="w-[300px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
-      {/* Blog Image */}
-      <Image
-        src={image}
-        alt="Blog Cover"
-        width={300}
-        height={200}
-        className="w-full h-48 object-cover rounded-t-xl"
-      />
-
-      {/* Blog Content */}
-      <div className="p-4">
-        <p className="text-sm text-blue-600 font-medium mb-1">{category}</p>
-        <h5 className="text-lg font-bold text-gray-800 mb-2">{title}</h5>
-        <p className="text-gray-600 text-sm mb-4">{description}</p>
-
-        {/* Read More */}
-        <div className="flex items-center gap-2 text-blue-600 font-semibold hover:underline cursor-pointer">
-          <span>Read More</span>
-          <Image src={assets.arrow} alt="arrow" width={16} height={16} />
-        </div>
+    <>
+      {/* Filter Buttons */}
+      <div className="flex flex-wrap justify-center gap-4 my-8 px-4">
+        {["All", "Technology", "Startup", "Life Style"].map((category) => (
+          <button
+            key={category}
+            onClick={() => setMenu(category)}
+            className={`px-4 py-2 rounded-lg transition font-medium ${
+              menu === category
+                ? "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+                : "bg-gray-100 text-blue-600 hover:bg-blue-200 cursor-pointer"
+            }`}
+          >
+            {category === "Life Style" ? "Life Style" : category}
+          </button>
+        ))}
       </div>
-    </div>
+
+      {/* Blog Cards */}
+      <div className="flex flex-wrap justify-start gap-6 xl:mx-24 px-4 mb-16 ">
+        {filteredBlogs.length > 0 ? (
+          filteredBlogs.map((item, index) => (
+            <BlogItem
+              key={index}
+              id={item.id.toString()}
+              image={item.image}
+              title={item.title}
+              description={item.description}
+              category={item.category}
+            />
+          ))
+        ) : (
+          <p className="text-gray-500 text-center w-full">
+            No blogs found in this category.
+          </p>
+        )}
+      </div>
+    </>
   );
 };
 

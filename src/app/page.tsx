@@ -1,5 +1,5 @@
 "use client"
-import BlogItem from "@/components/BlogItem"
+import BlogItem from "@/components/BlogList"
 import Navbar from "@/components/Navbar"
 
 const HomePage = () => {
