@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar"
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="scrollbar-hide overflow-y-scroll h-screen">
       <Navbar />
       <BlogItem />
     </div>

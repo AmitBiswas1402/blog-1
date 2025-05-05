@@ -14,7 +14,7 @@ const BlogList = () => {
   return (
     <>
       {/* Filter Buttons */}
-      <div className="flex flex-wrap justify-center gap-4 my-8 px-4">
+      <div className="flex flex-wrap justify-center gap-4 my-8 px-4 ">
         {["All", "Technology", "Startup", "Life Style"].map((category) => (
           <button
             key={category}
@@ -31,7 +31,7 @@ const BlogList = () => {
       </div>
 
       {/* Blog Cards */}
-      <div className="flex flex-wrap justify-start gap-6 xl:mx-24 px-4 mb-16 ">
+      <div className="flex flex-wrap justify-start gap-6 xl:mx-24 px-4 mb-16 cursor-pointer">
         {filteredBlogs.length > 0 ? (
           filteredBlogs.map((item, index) => (
             <BlogItem

@@ -3,7 +3,7 @@ import { assets } from "@/assets/assets";
 import Link from "next/link";
 
 type BlogListProps = {
-  id: string;
+  id: number; // assuming id is a number now
   title: string;
   description: string;
   image: string;
@@ -18,17 +18,18 @@ const BlogItem = ({
   image,
 }: BlogListProps) => {
   return (
-    <div className="w-[300px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+    <Link
+      href={`/blogs/${id}`}
+      className="block w-[300px] bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300"
+    >
       {/* Blog Image */}
-      <Link href={`/blogs/${id}`}>
-        <Image
-          src={image}
-          alt="Blog Cover"
-          width={300}
-          height={200}
-          className="w-full h-48 object-cover rounded-t-xl"
-        />
-      </Link>
+      <Image
+        src={image}
+        alt="Blog Cover"
+        width={300}
+        height={200}
+        className="w-full h-48 object-cover rounded-t-xl"
+      />
 
       {/* Blog Content */}
       <div className="p-4">
@@ -37,15 +38,12 @@ const BlogItem = ({
         <p className="text-gray-600 text-sm mb-4">{description}</p>
 
         {/* Read More */}
-        <Link
-          href={`/blogs/${id}`}
-          className="flex items-center gap-2 text-blue-600 font-semibold hover:underline cursor-pointer"
-        >
+        <div className="flex items-center gap-2 text-blue-600 font-semibold hover:underline">
           <span>Read More</span>
           <Image src={assets.arrow} alt="arrow" width={16} height={16} />
-        </Link>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
