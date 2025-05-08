@@ -13,7 +13,7 @@ const Sidebar = () => {
 
       <div className="flex flex-col gap-2">
         <Link
-          href="/admin/addBlog"
+          href="/admin/AddBlog"
           className={`flex items-center gap-3 px-4 py-3 rounded-md hover:bg-gray-200 ${
             pathname === "/admin/addBlog" ? "bg-gray-300" : ""
           }`}
@@ -23,7 +23,7 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          href="/admin/blogList"
+          href="/admin/BlogList"
           className={`flex items-center gap-3 px-4 py-3 rounded-md hover:bg-gray-200 ${
             pathname === "/admin/blogList" ? "bg-gray-300" : ""
           }`}
@@ -33,7 +33,7 @@ const Sidebar = () => {
         </Link>
 
         <Link
-          href="/admin/subscription"
+          href="/admin/Subscription"
           className={`flex items-center gap-3 px-4 py-3 rounded-md hover:bg-gray-200 ${
             pathname === "/admin/subscription" ? "bg-gray-300" : ""
           }`}

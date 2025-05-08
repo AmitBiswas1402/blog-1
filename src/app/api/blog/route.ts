@@ -9,7 +9,7 @@ connectDB().catch((err) => {
   console.error("Database connection failed:", err);
 });
 
-// GET handler
+// GET handler - Get all Blogs
 export async function GET() {
   try {
     await connectDB(); // Ensure DB is connected
@@ -23,7 +23,7 @@ export async function GET() {
   }
 }
 
-// POST handler
+// POST handler - Post a Blog
 export async function POST(request: NextRequest) {
   try {
     await connectDB(); // Ensure DB is connected
@@ -71,3 +71,4 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Failed to upload and save blog" }, { status: 500 });
   }
 }
+
