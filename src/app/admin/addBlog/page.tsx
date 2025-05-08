@@ -1,8 +1,11 @@
 "use client";
 
 import { assets } from "@/assets/assets";
+import axios from "axios";
 import Image from "next/image";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent} from "react";
+import { toast } from "react-toastify";
+import { FormEvent } from "react";
 
 interface BlogData {
   title: string;
@@ -36,15 +39,58 @@ const AddBlog = () => {
     }
   };
 
+  interface SubmitResponse {
+    status: number;
+  }
+
+  const onSubmitHandler = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+  
+    if (!image) {
+      toast.error("Please upload an image");
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("category", data.category);
+    formData.append("author", data.author);
+    formData.append("authorImg", data.authorImg);
+    formData.append("image", image); 
+  
+    try {
+      const response: SubmitResponse = await axios.post("/api/blog", formData);
+  
+      if (response.status === 201) {
+        toast.success("Blog added successfully!");
+        setImage(null)
+        setData({
+          title: "",
+          description: "",
+          category: "Startup",
+          author: "Alex Bennett",
+          authorImg: "/profile_icon.png",
+        })
+      } else {
+        toast.error("Failed to add blog");
+      }
+    } catch (error: unknown) {
+      console.error("Submit error:", error);
+      toast.error("Something went wrong");
+    }
+  };
+
   return (
-    <form className="p-4 rounded-lg w-full max-w-lg space-y-4 max-h-screen overflow-y-auto">
+    <form
+      onSubmit={onSubmitHandler}
+      encType="multipart/form-data"
+      className="p-4 rounded-lg w-full max-w-lg space-y-4 max-h-screen overflow-y-auto"
+    >
       {/* Upload */}
       <div>
         <p className="text-base font-semibold mb-2">Upload Thumbnail</p>
-        <label
-          htmlFor="image"
-          className="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-400 rounded-md cursor-pointer"
-        >
+        <label htmlFor="image" className="cursor-pointer">
           <Image
             src={image ? URL.createObjectURL(image) : assets.upload_area}
             alt="Upload Thumbnail"
@@ -65,7 +111,9 @@ const AddBlog = () => {
 
       {/* Title */}
       <div>
-        <label htmlFor="title" className="text-sm font-medium">Title</label>
+        <label htmlFor="title" className="text-sm font-medium">
+          Title
+        </label>
         <input
           type="text"
           id="title"
@@ -80,7 +128,9 @@ const AddBlog = () => {
 
       {/* Description */}
       <div>
-        <label htmlFor="description" className="text-sm font-medium">Content</label>
+        <label htmlFor="description" className="text-sm font-medium">
+          Content
+        </label>
         <textarea
           id="description"
           name="description"
@@ -95,24 +145,26 @@ const AddBlog = () => {
 
       {/* Category */}
       <div>
-        <label htmlFor="category" className="text-sm font-medium">Category</label>
+        <label htmlFor="category" className="text-sm font-medium">
+          Category
+        </label>
         <select
           id="category"
           name="category"
           value={data.category}
           onChange={onChangeHandler}
-          className="w-full p-2 text-sm border border-gray-300 rounded-md"
+          className="w-full p-2 text-sm border rounded-md bg-gray-100 text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600 hover:bg-gray-200 transition"
         >
-          <option value="Startup">Startup</option>
-          <option value="Technology">Technology</option>
-          <option value="Life Style">Life Style</option>
+          <option value="Startup" className="bg-white text-black">Startup</option>
+          <option value="Technology" className="bg-white text-black">Technology</option>
+          <option value="Life Style" className="bg-white text-black">Life Style</option>
         </select>
       </div>
 
       {/* Button */}
       <button
         type="submit"
-        className="w-full py-2 bg-white text-black text-sm rounded-md hover:bg-gray-200 transition"
+        className="w-full py-2 bg-white text-black text-sm rounded-md hover:bg-gray-400 hover:text-white transition cursor-pointer"
       >
         ADD BLOG
       </button>

@@ -1,24 +1,67 @@
 "use client";
 
-import { assets, blog_data } from "@/assets/assets";
+import { assets } from "@/assets/assets";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import axios from "axios";
+
+interface Blog {
+  _id: string;
+  title: string;
+  image: string;
+  description: string;
+  category: string;
+  author: string;
+  authorImg: string;
+  createdAt: string;
+}
 
 const Blogs = () => {
   const { id } = useParams();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<Blog | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const blogId = Number(id);
-    const blog = blog_data.find((item) => item.id === blogId);
-    setData(blog);
-    console.log(blog);
+    const fetchBlog = async () => {
+      try {
+        const response = await axios.get(`/api/blog/${id}`);
+        setData(response.data.blog);
+      } catch (error) {
+        console.error("Failed to fetch blog:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) fetchBlog();
   }, [id]);
 
-  return data ? (
-    <div className="min-h-screen text-white scrollbar-hide overflow-y-scroll h-screen">
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg text-gray-600">Loading blog post...</p>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg text-red-600">Blog not found.</p>
+      </div>
+    );
+  }
+
+  const formattedDate = new Date(data.createdAt).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
+  return (
+    <div className="min-h-screen text-white overflow-y-scroll h-screen">
       {/* Navbar */}
       <div className="flex justify-between items-center px-10 py-6 shadow-md">
         <Link href="/">
@@ -35,7 +78,7 @@ const Blogs = () => {
 
         <div className="flex items-center gap-4 mb-10">
           <Image
-            src={data.author_img}
+            src={data.authorImg}
             width={60}
             height={60}
             alt={data.author}
@@ -43,7 +86,7 @@ const Blogs = () => {
           />
           <div>
             <p className="text-lg font-semibold">{data.author}</p>
-            <p className="text-sm text-white">Published on Jan 1, 2025</p>
+            <p className="text-sm text-white">Published on {formattedDate}</p>
           </div>
         </div>
 
@@ -56,41 +99,18 @@ const Blogs = () => {
         />
 
         <p className="text-lg text-gray-100 leading-relaxed mb-6">
-          {data.description} Lorem ipsum dolor sit amet.
+          {data.description}
         </p>
 
-        {/* Blog Content */}
+        {/* Placeholder Content */}
         <div className="space-y-6 text-base text-gray-100 leading-relaxed">
           <div>
             <h3 className="text-xl font-semibold mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing.
+              More Details Coming Soon
             </h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Architecto vel culpa quae? Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Quod, quae.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-semibold mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing.
-            </h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Architecto vel culpa quae? Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Quod, quae.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-semibold mb-2">
-              Lorem ipsum dolor sit amet, consectetur adipisicing.
-            </h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Architecto vel culpa quae? Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Quod, quae.
+              This is a placeholder for full blog content. You can extend this
+              section to render HTML or markdown content from the database.
             </p>
           </div>
         </div>
@@ -114,10 +134,6 @@ const Blogs = () => {
           </div>
         </div>
       </div>
-    </div>
-  ) : (
-    <div className="min-h-screen flex items-center justify-center">
-      <p className="text-lg text-gray-600">Loading blog post...</p>
     </div>
   );
 };

@@ -11,7 +11,16 @@ connectDB().catch((err) => {
 
 // GET handler
 export async function GET() {
-  return NextResponse.json({ message: "API Working" });
+  try {
+    await connectDB(); // Ensure DB is connected
+
+    const blogs = await Blog.find().sort({ createdAt: -1 }); // Fetch all blogs sorted by newest first
+
+    return NextResponse.json({ success: true, blogs }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    return NextResponse.json({ success: false, error: "Failed to fetch blogs" }, { status: 500 });
+  }
 }
 
 // POST handler
