@@ -2,16 +2,24 @@ import { assets } from "@/assets/assets";
 import Image from "next/image";
 
 type BlogTableProps = {
+  id: string;
   title: string;
   authorImg?: string;
   date: string;
+  deleteBlog: (id: string) => void;
 };
 
-const BlogTable = ({ title, authorImg, date }: BlogTableProps) => {
+const BlogTable = ({
+  id,
+  title,
+  authorImg,
+  date,
+  deleteBlog,
+}: BlogTableProps) => {
   const BlogDate = new Date(date);
   return (
-    <tr className="border-b cursor-pointer transition">
-      <th className="px-6 py-4">
+    <tr className="border-b cursor-pointer transition hover:bg-blue-900/30">
+      <td className="px-6 py-4">
         <Image
           src={authorImg || assets.profile_icon}
           alt="Author"
@@ -19,10 +27,17 @@ const BlogTable = ({ title, authorImg, date }: BlogTableProps) => {
           height={40}
           className="rounded-full"
         />
-      </th>
-      <td className="px-6 py-4 font-medium text-white">{title || "No title"}</td>
+      </td>
+      <td className="px-6 py-4 font-medium text-white">
+        {title || "No title"}
+      </td>
       <td className="px-6 py-4 text-white">{BlogDate.toDateString()}</td>
-      <td className="px-6 py-4 text-red-500 cursor-pointer">✖</td>
+      <td
+        className="px-6 py-4 text-red-500 cursor-pointer"
+        onClick={() => deleteBlog(id)}
+      >
+        ✖
+      </td>
     </tr>
   );
 };

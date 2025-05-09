@@ -1,11 +1,14 @@
 "use client"
 import BlogItem from "@/components/BlogList"
-import Navbar from "@/components/Navbar"
+import Header from "@/components/Header"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 const HomePage = () => {
   return (
     <div className="scrollbar-hide overflow-y-scroll h-screen">
-      <Navbar />
+      <ToastContainer theme="dark" />
+      <Header />
       <BlogItem />
     </div>
   )

@@ -71,4 +71,3 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Failed to upload and save blog" }, { status: 500 });
   }
 }
-

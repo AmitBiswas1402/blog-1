@@ -5,7 +5,10 @@ import path from "path";
 import fs from "fs";
 
 // GET a Blog
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     await connectDB();
 
@@ -17,13 +20,19 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
     return NextResponse.json({ success: true, blog });
   } catch (error) {
-    console.log(error)
-    return NextResponse.json({ error: "Failed to fetch blog" }, { status: 500 });
+    console.log(error);
+    return NextResponse.json(
+      { error: "Failed to fetch blog" },
+      { status: 500 }
+    );
   }
 }
 
 // DELETE a Blog
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
   await connectDB();
 
   try {
@@ -33,18 +42,23 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
       return NextResponse.json({ message: "Blog not found" }, { status: 404 });
     }
 
-    // Delete the image from the /public folder if it exists
     if (blog.image) {
-      const imagePath = path.join(process.cwd(), "public", blog.image); // e.g. blog.image = "uploads/xyz.jpg"
+      const imagePath = path.join(process.cwd(), "public", blog.image);
       if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath); // deletes the file
+        fs.unlinkSync(imagePath); // delete the file
       }
     }
 
     await Blog.findByIdAndDelete(params.id);
 
-    return NextResponse.json({ message: "Blog and image deleted successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Blog and image deleted successfully" },
+      { status: 200 }
+    );
   } catch (error) {
-    return NextResponse.json({ message: "Error deleting blog", error }, { status: 500 });
+    return NextResponse.json(
+      { message: "Error deleting blog", error },
+      { status: 500 }
+    );
   }
 }

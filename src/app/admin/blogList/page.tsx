@@ -3,6 +3,7 @@
 import BlogTable from "@/components/admin/BlogTable";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,6 +14,17 @@ const BlogList = () => {
       setBlogs(response.data.blogs);
     } catch (error) {
       console.error("Failed to fetch blogs:", error);
+    }
+  };
+
+  const deleteBlog = async (mongoId: string): Promise<void> => {
+    try {
+      const response = await axios.delete(`/api/blog/${mongoId}`);
+      toast.success(response.data.message);
+      fetchBlogs();
+    } catch (error) {
+      toast.error("Failed to delete blog");
+      console.error(error);
     }
   };
 
@@ -56,21 +68,16 @@ const BlogList = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {blogs.map(
-              (blog: {
-                _id: string;
-                title: string;
-                authorImg: string;
-                date: string;
-              }) => (
-                <BlogTable
-                  key={blog._id}
-                  title={blog.title}
-                  authorImg={blog.authorImg}
-                  date={blog.date}
-                />
-              )
-            )}
+            {blogs.map((blog: any) => (
+              <BlogTable
+                key={blog._id}
+                id={blog._id}
+                title={blog.title}
+                authorImg={blog.authorImg}
+                date={blog.date}
+                deleteBlog={deleteBlog}
+              />
+            ))}
           </tbody>
         </table>
       </div>
