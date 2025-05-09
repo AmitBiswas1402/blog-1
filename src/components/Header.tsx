@@ -11,17 +11,30 @@ const Header = () => {
   }
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
+  e.preventDefault();
+
+  if (!email) {
+    toast.error("Email is required!");
+    return;
+  }
+
+  try {
     const formData = new FormData();
     formData.append("email", email);
+
     const response = await axios.post<FormResponse>('/api/email', formData);
+    
     if (response.data.success) {
       toast.success(response.data.message);
       setEmail("");
     } else {
-      toast.error("Error");
+      toast.error(response.data.message || "Something went wrong");
     }
-  };
+  } catch (error: any) {
+    toast.error(error?.response?.data?.message || "Server error");
+  }
+};
+
 
   return (
     <>

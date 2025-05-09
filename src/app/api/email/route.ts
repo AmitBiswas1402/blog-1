@@ -2,7 +2,6 @@ import { connectDB } from "@/lib/db/db";
 import EmailSubscriber from "@/lib/models/email.model";
 import { NextRequest, NextResponse } from "next/server";
 
-// Connect to DB on each request (recommended for edge/serverless environments)
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     await connectDB();
@@ -36,6 +35,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     console.error("Email subscription error:", error);
     return NextResponse.json(
       { success: false, message: "Server error", error },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(): Promise<NextResponse> {
+  try {
+    await connectDB();
+    const emails = await EmailSubscriber.find().sort({ date: -1 });
+    return NextResponse.json({ emails });
+  } catch (error) {
+    console.error("Fetching emails failed:", error);
+    return NextResponse.json(
+      { success: false, message: "Failed to fetch emails", error },
       { status: 500 }
     );
   }
